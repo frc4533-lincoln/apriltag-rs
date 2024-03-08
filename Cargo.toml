@@ -1,0 +1,40 @@
+[package]
+name = "apriltag-rs"
+version = "0.1.0"
+edition = "2021"
+
+[[bench]]
+name = "stress_test"
+harness = false
+
+[features]
+default = ["rayon"]
+rayon = ["nalgebra/rayon"]
+cuda  = ["nalgebra/cuda"]
+
+[dependencies]
+apriltag = "0.4.0"
+apriltag-nalgebra = "0.1.0"
+cam-geom = "0.14.1"
+image = { version = "0.24.7", default-features = false, features = ["png"] }
+imageproc = "0.23.0"
+nalgebra = { version = "0.32.3" }
+nokhwa = { version = "0.10.4", features = ["input-native", "rgb", "output-threaded"] }
+
+[dev-dependencies]
+apriltag = "0.4.0"
+criterion = { version = "0.5.1", features = ["html_reports"] }
+
+[profile.dev.package.'*']
+opt-level = 3
+
+[profile.dev.package.apriltag-rs]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
+
+[workspace]
+members = ["frc-apriltag-rs"]
